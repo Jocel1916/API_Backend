@@ -10,7 +10,7 @@ def chat():
     message = data.get('message', '').lower()
 
     if message == 'hi':
-        response = 'hello'
+        response = 'hello, Jocel Maria D. Mandigma'
     else:
         response = "I didn't understand that."
 
