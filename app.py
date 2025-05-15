@@ -4,6 +4,11 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+# Optional: for checking if server is alive
+@app.route('/', methods=['GET'])
+def index():
+    return 'Server is running!'
+
 @app.route('/chat', methods=['POST'])
 def chat():
     data = request.get_json()
