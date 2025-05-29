@@ -30,13 +30,19 @@ def predict():
     # Standardize the input data using the scaler
     input_data_scaled = scaler.transform(input_data)
 
-    # Make prediction using the trained model
-    prediction = model.predict(input_data_scaled)
+    # Get prediction probabilities using the trained model
+    prediction_probabilities = model.predict_proba(input_data_scaled)
 
-    # Return the prediction result: 'pass' or 'fail'
-    result = 'pass' if prediction[0] == 1 else 'fail'
+    # Calculate the probability of passing (class 1)
+    pass_probability = prediction_probabilities[0][1] * 100  # Multiply by 100 to get percentage
 
-    return jsonify({'result': result})
+    # Determine if the result is pass or fail based on the threshold of 75% pass probability
+    result = 'pass' if pass_probability >= 75 else 'fail'
+
+    return jsonify({
+        'result': result,
+        'percentage': f"{pass_probability:.2f}%"
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)
